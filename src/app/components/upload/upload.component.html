@@ -1,0 +1,93 @@
+<div class="row">
+  <!-- Left Panel -->
+  <div class="col-md-4">
+    <div class="box">
+      <h3>Select files</h3>
+      <div appNgDropFiles [archivos]="files" (mouseSobre)="hoverZone = $event" [ngClass]="{ 'file-over': hoverZone }"
+        class="well drop-zone">
+        <h4>Drop files here</h4>
+        <img src="assets/drop-images.png" alt="">
+      </div>
+    </div>
+    
+
+    <div class="box mt-5">
+      <form [formGroup]="form">
+        <h4 class="mb-2">File information:</h4>
+
+        <div class="form-group">
+          <!-- <label for="fileName">File name</label> -->
+          <input type="text" class="form-control" id="fileName" placeholder="CSV file name" formControlName="fileName">
+          <small
+            *ngIf="form.get('fileName').errors && form.get('fileName').touched && form.get('fileName').hasError('required')"
+            style="color: red;" id="fileName">Required file name</small>
+        </div>
+        <div class="form-group">
+          <!-- <label for="mcName">Master catalog name</label> -->
+          <input type="text" class="form-control" id="mcName" placeholder="Master catalog name"
+            formControlName="mcName">
+          <small
+            *ngIf="form.get('mcName').errors && form.get('mcName').touched && form.get('mcName').hasError('required')"
+            style="color: red;" id="fileName">Required file name</small>
+        </div>
+        <div class="form-group">
+          <!-- <label for="mcName">Master catalog name</label> -->
+          <input type="text" class="form-control" id="imageUrl" placeholder="URL image" formControlName="imageUrl">
+          <small id="imageUrl" class="form-text text-muted"></small>
+        </div>
+      </form>
+    </div>
+
+    <div class="mt-5">
+      <h3 class="badge badge-primary">TODO:</h3>
+      <ul class="list-group">
+        <li class="list-group-item">Form to input header csv and file name</li>
+        <li class="list-group-item">Rename files after uploaded</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Rigth panel -->
+
+  <div class="col-md-8">
+
+    <h4>Upload files</h4>
+
+    <button (click)="downloadCSV()" [disabled]="files.length === 0" class="btn btn-success">Download csv </button>
+    <button (click)="clearFiles()" class="btn btn-danger">Clean</button>
+
+    <h4 class="mt-4">Nº files: <span class="badge badge-secondary"> {{this.files.length}}</span></h4>
+    <table class="table" style="height: 200px; overflow-y: scroll;">
+      <thead class="thead-dark">
+        <tr>
+          <th>Img</th>
+          <th *ngFor="let header of headerList">{{ header }}</th>
+          <th>Size</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let archivo of files; let i= index">
+          <td><img [src]="archivo.fileBuffer" width="50px;"></td>
+          <td></td>
+          <td></td>
+          <td>{{ archivo.fileName }}</td>
+          <td></td>
+          <td></td>
+          <td>{{ archivo.size / 2048 | number: '.2-2' }}MB</td>
+          <td>
+            <button class="btn btn-danger" (click)="deleteFile(i)">
+              <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z" />
+              </svg>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+
+  </div>
+</div>
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
