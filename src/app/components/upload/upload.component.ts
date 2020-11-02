@@ -56,7 +56,7 @@ export class UploadComponent implements OnInit {
         filesNames.push(
           {
             MasterCatalogName: formValue.mcName,
-            ImageUrl: formValue.imageUrl,
+            ImageUrl: formValue.imageUrl + item.fileName,
             Name: item.fileName,
             Id: "",
             Tags: ""
